@@ -9,7 +9,6 @@ date = datetime.datetime.today().strftime('%m_%d_%y')
 
 class SapphireonlineSpider(scrapy.Spider):
     name = "sapphireonline"
-    allowed_domains = ["sapphireonline.pk"]
     start_urls = ["https://pk.sapphireonline.pk/sitemap_collections_1.xml"]
 
     custom_settings = {
