@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 # ExecStart=scrapy runspider /root/fiverr/ph_overload/pornhub.py
-ExecStart=python /root/snap/lxd/common/ph_overload.py
+ExecStart=/root/miniconda3/bin/python3 /root/snap/lxd/common/ph_overload.py
 WorkingDirectory=/root/snap/lxd/common
 Restart=always
 
