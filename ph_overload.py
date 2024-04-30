@@ -34,7 +34,7 @@ if __name__ == "__main__":
         with open('link.csv','r') as r:
             reader = csv.reader(r)
 
-            with concurrent.futures.ThreadPoolExecutor(max_workers=5) as f:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as f:
                 a = {
                     f.submit(download_video,line[0])
                     for line in reader
