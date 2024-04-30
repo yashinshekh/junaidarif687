@@ -4,6 +4,7 @@ import xmltodict
 import csv
 import datetime
 import os
+import re
 
 date = datetime.datetime.today().strftime('%m_%d_%y')
 
@@ -55,7 +56,7 @@ class SapphireonlineSpider(scrapy.Spider):
         category = response.xpath('.//*[@class="t4s-pr-breadcrumb"]/a[2]/text()').extract_first()
         title = response.xpath('.//*[@class="t4s-pr-breadcrumb"]/span/text()').extract_first()
         old_price = response.xpath('.//del/span/text()').extract_first()
-        new_price = response.xpath('.//ins/span/text()').extract_first()
+        new_price = response.xpath('.//ins/span/text() | .//*[@class="t4s-product-price"]/span/text()').extract_first()
 
         datas = response.xpath('.//select/option').extract()
         for data in datas:
@@ -71,3 +72,12 @@ class SapphireonlineSpider(scrapy.Spider):
                 writer = csv.writer(f)
                 writer.writerow([date,response.url,category,title,old_price,new_price,option,quantity])
                 print([date,response.url,category,title,old_price,new_price,option,quantity])
+
+
+        if not datas:
+            option = ''
+            quantity = ''.join(re.findall(r'\d+',response.xpath('.//span/text()[contains(.,"-Piece")]').extract_first()))
+            with open(f"sapphireonline_{date}.csv","a") as f:
+                writer = csv.writer(f)
+                writer.writerow([date,response.url,category,title,old_price,new_price,option,quantity])
+
